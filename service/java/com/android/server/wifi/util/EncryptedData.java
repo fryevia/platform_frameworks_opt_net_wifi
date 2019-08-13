@@ -16,25 +16,22 @@
 
 package com.android.server.wifi.util;
 
-import com.android.internal.util.Preconditions;
+import java.io.Serializable;
 
 /**
  * A class to store data created by {@link DataIntegrityChecker}.
  */
-public class EncryptedData {
-    public static final int ENCRYPTED_DATA_LENGTH = 48;
-    public static final int IV_LENGTH = 12;
+public class EncryptedData implements Serializable {
+    private static final long serialVersionUID = 1337L;
 
-    private final byte[] mEncryptedData;
-    private final byte[] mIv;
+    private byte[] mEncryptedData;
+    private byte[] mIv;
+    private String mKeyAlias;
 
-    public EncryptedData(byte[] encryptedData, byte[] iv) {
-        Preconditions.checkNotNull(encryptedData, iv);
-        Preconditions.checkState(encryptedData.length == ENCRYPTED_DATA_LENGTH,
-                "encryptedData.length=" + encryptedData.length);
-        Preconditions.checkState(iv.length == IV_LENGTH, "iv.length=" + iv.length);
+    public EncryptedData(byte[] encryptedData, byte[] iv, String keyAlias) {
         mEncryptedData = encryptedData;
         mIv = iv;
+        mKeyAlias = keyAlias;
     }
 
     public byte[] getEncryptedData() {
@@ -43,5 +40,9 @@ public class EncryptedData {
 
     public byte[] getIv() {
         return mIv;
+    }
+
+    public String getKeyAlias() {
+        return mKeyAlias;
     }
 }
